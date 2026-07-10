@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="es"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
@@ -117,7 +117,7 @@
       padding:0 3px}
     .sc-host.sc-has-error{position:relative}
     .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
-      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      padding:6px 10px;background:#b00020;color:var(--paper);font:12px/1.4 ui-monospace,monospace;
       border-radius:4px;white-space:pre-wrap;pointer-events:none}
     /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts \u2014 keep both
        in sync until dc-runtime regains a build step. */
@@ -1662,6 +1662,7 @@
 
 <x-dc>
 <helmet>
+<title>Cortes · Estructura de la judicatura chilena</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <style>/* cyrillic-ext */
@@ -2029,11 +2030,16 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
 
 </script>
 <style>
+  :root { --paper: oklch(0.99 0.004 265); }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   .lucide { width: 1em; height: 1em; display: block; }
   button { font-family: inherit; }
+  button:focus-visible { outline: 2px solid oklch(0.55 0.15 265); outline-offset: 2px; }
   ::selection { background: oklch(0.86 0.05 265); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+  }
   @keyframes colIn { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
   @keyframes chipIn { from { opacity: 0; transform: translateX(-12px) scale(.94); } to { opacity: 1; transform: none; } }
   @keyframes descIn { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
@@ -2050,17 +2056,17 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
     <!-- TIER SELECTOR (primary + demoted gateway) -->
     <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px; margin-bottom:6px;">
       <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="3">
-        <button onclick="{{ tab.onClick }}" style="font-family:'Space Grotesk'; font-size:15px; font-weight:{{ tab.fw }}; letter-spacing:-0.01em; padding:11px 22px; border-radius:999px; cursor:pointer; opacity:{{ tab.op }}; background:{{ tab.bg }}; border:1.6px solid {{ tab.bd }}; color:{{ tab.fg }}; transition:all .35s cubic-bezier(.4,0,.2,1);">{{ tab.label }}</button>
+        <button onclick="{{ tab.onClick }}" style="font-family:'Space Grotesk'; font-size:15px; font-weight:{{ tab.fw }}; letter-spacing:-0.01em; padding:11px 22px; border-radius:999px; cursor:pointer; opacity:{{ tab.op }}; background:{{ tab.bg }}; border:1.6px solid {{ tab.bd }}; color:{{ tab.fg }}; transition:background-color .35s cubic-bezier(.4,0,.2,1),border-color .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),opacity .35s cubic-bezier(.4,0,.2,1);">{{ tab.label }}</button>
       </sc-for>
       <span style="width:1px; height:20px; background:oklch(0.9 0.012 265); margin:0 2px;"></span>
-      <button onclick="{{ otros.onClick }}" style="font-family:'Space Grotesk'; font-size:13.5px; font-weight:500; letter-spacing:-0.01em; padding:9px 16px; border-radius:999px; cursor:pointer; background:transparent; border:1px dashed oklch(0.82 0.015 265); color:oklch(0.55 0.02 265); transition:all .35s cubic-bezier(.4,0,.2,1);">{{ otros.label }}</button>
+      <button onclick="{{ otros.onClick }}" style="font-family:'Space Grotesk'; font-size:13.5px; font-weight:500; letter-spacing:-0.01em; padding:9px 16px; border-radius:999px; cursor:pointer; background:transparent; border:1px dashed oklch(0.82 0.015 265); color:oklch(0.55 0.02 265); transition:background-color .35s cubic-bezier(.4,0,.2,1),border-color .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),opacity .35s cubic-bezier(.4,0,.2,1);">{{ otros.label }}</button>
     </div>
 
     <!-- SECONDARY ROW (deliberate access; dimmer, only when open) -->
     <sc-if value="{{ otros.open }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-bottom:6px; padding-top:2px;">
       <sc-for list="{{ subtabs }}" as="tab" hint-placeholder-count="4">
-        <button onclick="{{ tab.onClick }}" style="font-family:'Space Grotesk'; font-size:13px; font-weight:{{ tab.fw }}; letter-spacing:-0.01em; padding:7px 15px; border-radius:999px; cursor:pointer; background:{{ tab.bg }}; border:1.3px solid {{ tab.bd }}; color:{{ tab.fg }}; transition:all .3s cubic-bezier(.4,0,.2,1);">{{ tab.label }}</button>
+        <button onclick="{{ tab.onClick }}" style="font-family:'Space Grotesk'; font-size:13px; font-weight:{{ tab.fw }}; letter-spacing:-0.01em; padding:7px 15px; border-radius:999px; cursor:pointer; background:{{ tab.bg }}; border:1.3px solid {{ tab.bd }}; color:{{ tab.fg }}; transition:background-color .3s cubic-bezier(.4,0,.2,1),border-color .3s cubic-bezier(.4,0,.2,1),color .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1),opacity .3s cubic-bezier(.4,0,.2,1);">{{ tab.label }}</button>
       </sc-for>
     </div>
     </sc-if>
@@ -2074,23 +2080,23 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
     <!-- ===== HORIZONTAL CASCADE ===== -->
     <div class="cs-scroll" style="display:flex; flex-wrap:wrap; overflow-x:hidden; gap:14px; align-items:flex-start; margin-top:14px; padding:4px 2px 10px;">
       <sc-for list="{{ columns }}" as="col" hint-placeholder-count="2">
-        <div style="flex:0 1 auto; min-width:252px; max-width:100%; display:flex; flex-direction:column; gap:10px; align-items:flex-start; animation:colIn .4s cubic-bezier(.4,0,.2,1) both;">
+        <div style="flex:0 1 auto; min-width:min(252px,100%); max-width:100%; display:flex; flex-direction:column; gap:10px; align-items:flex-start; animation:colIn .4s cubic-bezier(.4,0,.2,1) both;">
           <sc-for list="{{ col.rows }}" as="row" hint-placeholder-count="3">
 
             <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:12px; max-width:100%;">
-              <button onclick="{{ row.onClick }}" style="flex:none; width:252px; display:flex; flex-direction:column; text-align:left; cursor:pointer; background:{{ row.bg }}; border:{{ row.bw }} solid {{ row.bd }}; border-radius:14px; padding:12px 13px; box-shadow:{{ row.sh }}; transform:{{ row.tf }}; transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s cubic-bezier(.22,1,.36,1), background-color .45s ease, border-color .45s ease;" style-hover="transform:translateY(-3px);">
+              <button onclick="{{ row.onClick }}" style="flex:none; width:252px; max-width:100%; display:flex; flex-direction:column; text-align:left; cursor:pointer; background:{{ row.bg }}; border:{{ row.bw }} solid {{ row.bd }}; border-radius:14px; padding:12px 13px; box-shadow:{{ row.sh }}; transform:{{ row.tf }}; transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s cubic-bezier(.22,1,.36,1), background-color .45s ease, border-color .45s ease;" style-hover="transform:translateY(-3px);">
                 <span style="display:flex; align-items:center; gap:11px; width:100%;">
-                  <span style="flex:none; width:38px; height:38px; border-radius:10px; background:{{ row.iconBg }}; color:{{ row.iconFg }}; display:flex; align-items:center; justify-content:center; font-size:18px; transition:background-color .45s ease, color .45s ease, transform .5s cubic-bezier(.22,1,.36,1); transform:{{ row.iconTf }};"><i data-lucide="{{ row.icon }}"></i></span>
+                  <span style="flex:none; width:38px; height:38px; border-radius:10px; background:{{ row.iconBg }}; color:{{ row.iconFg }}; display:flex; align-items:center; justify-content:center; font-size:18px; transition:background-color .45s ease, color .45s ease, transform .5s cubic-bezier(.22,1,.36,1); transform:{{ row.iconTf }};"><i aria-hidden="true" data-lucide="{{ row.icon }}"></i></span>
                   <span style="flex:1; min-width:0;">
                     <sc-if value="{{ row.hasKicker }}" hint-placeholder-val="{{ true }}">
-                      <span style="display:block; font-family:'Space Grotesk'; font-weight:500; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:{{ row.sub }};">{{ row.kicker }}</span>
+                      <span style="display:block; font-family:'Space Grotesk'; font-weight:500; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:{{ row.sub }};">{{ row.kicker }}</span>
                     </sc-if>
                     <span style="display:block; font-family:'Space Grotesk'; font-weight:700; font-size:14.5px; line-height:1.2; color:{{ row.fg }};">{{ row.name }}</span>
                   </span>
                   <sc-if value="{{ row.hasTag }}" hint-placeholder-val="{{ true }}">
-                    <span style="flex:none; font-size:10.5px; font-weight:600; color:{{ row.tagColor }}; font-family:'Space Grotesk';">{{ row.tag }}</span>
+                    <span style="flex:none; font-size:11.5px; font-weight:600; color:{{ row.tagColor }}; font-family:'Space Grotesk';">{{ row.tag }}</span>
                   </sc-if>
-                  <span style="flex:none; color:{{ row.caretColor }}; font-size:17px; transition:transform .45s cubic-bezier(.22,1,.36,1); transform:{{ row.caretRot }};"><i data-lucide="chevron-right"></i></span>
+                  <span style="flex:none; color:{{ row.caretColor }}; font-size:17px; transition:transform .45s cubic-bezier(.22,1,.36,1); transform:{{ row.caretRot }};"><i aria-hidden="true" data-lucide="chevron-right"></i></span>
                 </span>
                 <sc-if value="{{ row.showInlineDesc }}" hint-placeholder-val="{{ true }}">
                   <span style="display:block; margin-top:11px; padding-top:11px; border-top:1px solid {{ row.bd }}; font-family:'IBM Plex Sans'; font-size:12.5px; line-height:1.55; color:{{ row.descColor }};">{{ row.descText }}</span>
@@ -2111,7 +2117,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
                   <sc-if value="{{ row.showGroups }}" hint-placeholder-val="{{ true }}">
                     <sc-for list="{{ row.groups }}" as="grp" hint-placeholder-count="2">
                       <div style="display:flex; flex-direction:column; gap:6px;">
-                        <span style="display:flex; align-items:center; gap:7px; font-family:'Space Grotesk'; font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:{{ row.chipFg }}; opacity:.8;">
+                        <span style="display:flex; align-items:center; gap:7px; font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:{{ row.chipFg }}; opacity:.8;">
                           <span style="flex:none; width:14px; height:2px; border-radius:2px; background:{{ row.color }};"></span>{{ grp.label }}
                         </span>
                         <div style="display:flex; flex-wrap:wrap; gap:7px; padding-left:2px;">
@@ -2142,9 +2148,9 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
   <sc-if value="{{ showFicha }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1280px; margin:clamp(20px,3vw,32px) auto 0; background:{{ ficha.soft }}; border:1px solid {{ ficha.bd }}; border-radius:20px; padding:clamp(18px,2.4vw,26px); transition:background-color .45s ease, border-color .45s ease;">
     <button onclick="{{ ficha.onToggle }}" aria-expanded="{{ ficha.open }}" style="width:100%; display:flex; align-items:center; gap:10px; margin:0; padding:0; background:transparent; border:none; cursor:pointer; text-align:left;">
-      <span style="flex:none; width:34px; height:34px; border-radius:10px; background:{{ ficha.accent }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:17px;"><i data-lucide="book-open"></i></span>
+      <span style="flex:none; width:34px; height:34px; border-radius:10px; background:{{ ficha.accent }}; color:var(--paper); display:flex; align-items:center; justify-content:center; font-size:17px;"><i aria-hidden="true" data-lucide="book-open"></i></span>
       <div style="flex:1; font-family:'Space Grotesk'; font-weight:700; font-size:clamp(15px,1.8vw,18px); color:oklch(0.26 0.03 265);">Ficha de referencia</div>
-      <span style="flex:none; color:{{ ficha.accent }}; font-size:20px; display:flex; align-items:center; transition:transform .4s cubic-bezier(.4,0,.2,1); transform:{{ ficha.caretRot }};"><i data-lucide="chevron-down"></i></span>
+      <span style="flex:none; color:{{ ficha.accent }}; font-size:20px; display:flex; align-items:center; transition:transform .4s cubic-bezier(.4,0,.2,1); transform:{{ ficha.caretRot }};"><i aria-hidden="true" data-lucide="chevron-down"></i></span>
     </button>
     <div style="display:grid; grid-template-rows:{{ ficha.gridRows }}; opacity:{{ ficha.bodyOpacity }}; transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1), opacity .4s ease;">
     <div style="overflow:hidden; min-height:0;">
@@ -2152,7 +2158,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
     <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start;">
 
       <sc-if value="{{ ficha.hasPlazos }}" hint-placeholder-val="{{ true }}">
-      <div style="flex:1 1 300px; min-width:260px; background:#fff; border:1px solid {{ ficha.bd }}; border-radius:14px; padding:15px 16px;">
+      <div style="flex:1 1 300px; min-width:min(260px,100%); padding:2px 0;">
         <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:10px;">Plazos clave</div>
         <ul style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px;">
           <sc-for list="{{ ficha.plazos }}" as="p" hint-placeholder-count="3">
@@ -2165,31 +2171,31 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
       </div>
       </sc-if>
 
-      <div style="flex:1 1 300px; min-width:260px; display:flex; flex-direction:column; gap:12px;">
+      <div style="flex:1 1 300px; min-width:min(260px,100%); display:flex; flex-direction:column; gap:12px;">
         <sc-if value="{{ ficha.hasRecibe }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#fff; border:1px solid {{ ficha.bd }}; border-radius:14px; padding:13px 15px;">
-          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i data-lucide="corner-down-left" style="width:14px; height:14px;"></i>Recibe</div>
+        <div style="padding:2px 0;">
+          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i aria-hidden="true" data-lucide="corner-down-left" style="width:14px; height:14px;"></i>Recibe</div>
           <p style="margin:0; font-size:12.5px; line-height:1.5; color:oklch(0.42 0.02 265);">{{ ficha.recibe }}</p>
         </div>
         </sc-if>
         <sc-if value="{{ ficha.hasDeriva }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#fff; border:1px solid {{ ficha.bd }}; border-radius:14px; padding:13px 15px;">
-          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i data-lucide="corner-up-right" style="width:14px; height:14px;"></i>Deriva</div>
+        <div style="padding:2px 0;">
+          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i aria-hidden="true" data-lucide="corner-up-right" style="width:14px; height:14px;"></i>Deriva</div>
           <p style="margin:0; font-size:12.5px; line-height:1.5; color:oklch(0.42 0.02 265);">{{ ficha.deriva }}</p>
         </div>
         </sc-if>
       </div>
 
-      <div style="flex:1 1 300px; min-width:260px; display:flex; flex-direction:column; gap:12px;">
+      <div style="flex:1 1 300px; min-width:min(260px,100%); display:flex; flex-direction:column; gap:12px;">
         <sc-if value="{{ ficha.hasQuorum }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#fff; border:1px solid {{ ficha.bd }}; border-radius:14px; padding:13px 15px;">
-          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i data-lucide="users" style="width:14px; height:14px;"></i>Integración / quórum</div>
+        <div style="padding:2px 0;">
+          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i aria-hidden="true" data-lucide="users" style="width:14px; height:14px;"></i>Integración / quórum</div>
           <p style="margin:0; font-size:12.5px; line-height:1.5; color:oklch(0.42 0.02 265);">{{ ficha.quorum }}</p>
         </div>
         </sc-if>
         <sc-if value="{{ ficha.hasTerr }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#fff; border:1px solid {{ ficha.bd }}; border-radius:14px; padding:13px 15px;">
-          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i data-lucide="map-pin" style="width:14px; height:14px;"></i>Competencia territorial</div>
+        <div style="padding:2px 0;">
+          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:{{ ficha.accent }}; margin-bottom:5px; display:flex; align-items:center; gap:6px;"><i aria-hidden="true" data-lucide="map-pin" style="width:14px; height:14px;"></i>Competencia territorial</div>
           <p style="margin:0; font-size:12.5px; line-height:1.5; color:oklch(0.42 0.02 265);">{{ ficha.territorial }}</p>
         </div>
         </sc-if>
@@ -2197,7 +2203,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
 
     </div>
     <sc-if value="{{ ficha.hasBase }}" hint-placeholder-val="{{ true }}">
-    <div style="margin-top:14px; font-size:12px; color:oklch(0.52 0.02 265); display:flex; align-items:center; gap:7px;"><i data-lucide="scale" style="width:14px; height:14px;"></i><span><strong style="font-weight:600;">Base legal:</strong> {{ ficha.base }}</span></div>
+    <div style="margin-top:14px; font-size:12px; color:oklch(0.52 0.02 265); display:flex; align-items:center; gap:7px;"><i aria-hidden="true" data-lucide="scale" style="width:14px; height:14px;"></i><span><strong style="font-weight:600;">Base legal:</strong> {{ ficha.base }}</span></div>
     </sc-if>
     </div>
     </div>
@@ -2209,12 +2215,12 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
   <sc-if value="{{ showFlow }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1280px; margin:clamp(28px,4vw,48px) auto 0; background:oklch(0.995 0.003 265); border:1px solid oklch(0.905 0.008 265); border-radius:24px; padding:clamp(22px,3vw,34px); box-shadow:0 30px 60px -46px rgba(28,28,60,.35);">
     <button onclick="{{ flowToggle }}" aria-expanded="{{ flowOpen }}" style="width:100%; display:flex; align-items:center; gap:16px; flex-wrap:nowrap; margin:0; padding:0; background:transparent; border:none; cursor:pointer; text-align:left;">
-      <span style="flex:none; width:48px; height:48px; border-radius:13px; background:{{ accent }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:23px;"><i data-lucide="file-search"></i></span>
+      <span style="flex:none; width:48px; height:48px; border-radius:13px; background:{{ accent }}; color:var(--paper); display:flex; align-items:center; justify-content:center; font-size:23px;"><i aria-hidden="true" data-lucide="file-search"></i></span>
       <div style="flex:1; min-width:0;">
         <div style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(18px,2.4vw,24px); line-height:1.1; color:oklch(0.24 0.03 265);">{{ flowTitle }}</div>
         <div style="font-size:13px; color:oklch(0.5 0.02 265); margin-top:4px;">{{ flowSubtitle }}</div>
       </div>
-      <span style="flex:none; color:{{ accent }}; font-size:22px; display:flex; align-items:center; transition:transform .4s cubic-bezier(.4,0,.2,1); transform:{{ flowCaretRot }};"><i data-lucide="chevron-down"></i></span>
+      <span style="flex:none; color:{{ accent }}; font-size:22px; display:flex; align-items:center; transition:transform .4s cubic-bezier(.4,0,.2,1); transform:{{ flowCaretRot }};"><i aria-hidden="true" data-lucide="chevron-down"></i></span>
     </button>
     <div style="display:grid; grid-template-rows:{{ flowGridRows }}; opacity:{{ flowBodyOpacity }}; transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1), opacity .4s ease;">
     <div style="overflow:hidden; min-height:0;">
@@ -2224,7 +2230,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
         <div style="flex:1 1 180px; min-width:170px;">
           <div style="height:100%; border:1px solid {{ f.border }}; background:{{ f.soft }}; border-radius:15px; padding:16px 15px;">
             <div style="display:flex; align-items:center; gap:9px; margin-bottom:10px;">
-              <span style="flex:none; width:26px; height:26px; border-radius:50%; background:{{ f.color }}; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:13px;">{{ f.n }}</span>
+              <span style="flex:none; width:26px; height:26px; border-radius:50%; background:{{ f.color }}; color:var(--paper); display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:13px;">{{ f.n }}</span>
               <span style="font-family:'Space Grotesk'; font-weight:700; font-size:12.5px; letter-spacing:.02em; text-transform:uppercase; color:{{ f.color }}; line-height:1.15;">{{ f.q }}</span>
             </div>
             <sc-if value="{{ f.hasItems }}" hint-placeholder-val="{{ true }}">
@@ -2242,7 +2248,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
       </sc-for>
     </div>
     <div style="margin-top:16px; display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; border-radius:16px; padding:20px 22px; background:linear-gradient(120deg, color-mix(in oklab, {{ accent }}, white 90%), color-mix(in oklab, {{ accent }}, white 96%)); border:1px solid color-mix(in oklab, {{ accent }}, white 80%);">
-      <span style="flex:none; width:42px; height:42px; border-radius:12px; background:{{ accent }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:21px;"><i data-lucide="lightbulb"></i></span>
+      <span style="flex:none; width:42px; height:42px; border-radius:12px; background:{{ accent }}; color:var(--paper); display:flex; align-items:center; justify-content:center; font-size:21px;"><i aria-hidden="true" data-lucide="lightbulb"></i></span>
       <div style="flex:1; min-width:240px;">
         <div style="font-family:'Space Grotesk'; font-weight:700; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:{{ accent }};">Idea clave</div>
         <div style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(16px,2vw,21px); color:oklch(0.26 0.03 265); margin-top:6px; line-height:1.25;">{{ flowKey }}</div>
@@ -2814,13 +2820,13 @@ class Component extends DCLogic {
     const NB = 'oklch(0.9 0.012 265)';
 
     const node = (c, a) => ({
-      bg: a ? `color-mix(in oklab, ${c}, white 88%)` : '#ffffff',
+      bg: a ? `color-mix(in oklab, ${c}, white 88%)` : 'var(--paper)',
       bd: a ? c : NB,
       bw: a ? '1.6px' : '1px',
       fg: a ? `color-mix(in oklab, ${c}, black 30%)` : 'oklch(0.32 0.02 265)',
       sub: a ? `color-mix(in oklab, ${c}, black 6%)` : 'oklch(0.55 0.015 265)',
       iconBg: a ? c : `color-mix(in oklab, ${c}, white 88%)`,
-      iconFg: a ? '#ffffff' : c,
+      iconFg: a ? 'var(--paper)' : c,
       sh: a ? `0 12px 28px -16px ${c}` : '0 1px 2px rgba(30,30,60,.05)',
       caretColor: a ? c : 'oklch(0.62 0.02 265)',
     });
@@ -2851,7 +2857,7 @@ class Component extends DCLogic {
         descText: o.desc || '',
         descColor: `color-mix(in oklab, ${o.color}, black 26%)`,
         subs: (o.subs || []).map((t, i) => ({ text: t, delay: (i * 0.06).toFixed(2) + 's' })),
-        chipBg: '#ffffff',
+        chipBg: 'var(--paper)',
         chipBd: `color-mix(in oklab, ${o.color}, white 68%)`,
         chipFg: `color-mix(in oklab, ${o.color}, black 28%)`,
       };
@@ -2960,7 +2966,7 @@ class Component extends DCLogic {
             id, label: (this.TIERS[id] && this.TIERS[id].title) || id,
             active,
             onClick: () => this.switchTier(id),
-            bg: active ? 'color-mix(in oklab, ' + AC + ', white 82%)' : '#ffffff',
+            bg: active ? 'color-mix(in oklab, ' + AC + ', white 82%)' : 'var(--paper)',
             bd: active ? AC : 'oklch(0.9 0.012 265)',
             fg: active ? 'color-mix(in oklab, ' + AC + ', black 34%)' : (dim ? 'oklch(0.72 0.015 265)' : 'oklch(0.5 0.02 265)'),
             fw: active ? '600' : '500',
