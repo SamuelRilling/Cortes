@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "lucide-react": "^1.24.0",
     "next": "latest",
     "react": "^19",
     "react-dom": "^19"

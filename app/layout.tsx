@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
+import './globals.css'
+import '@fontsource/ibm-plex-sans/400.css'
+import '@fontsource/ibm-plex-sans/400-italic.css'
+import '@fontsource/space-grotesk/500.css'
+import '@fontsource/space-grotesk/600.css'
+import '@fontsource/space-grotesk/700.css'
 
 export const metadata: Metadata = {
-  title: "Cortes",
-  description: "Cortes Project",
-};
+  title: 'Cortes — Referencia de Tribunales Chilenos',
+  description: 'Referencia visual de la estructura de los tribunales del sistema judicial chileno.',
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" style={{ margin: 0, padding: 0, height: "100%" }}>
-      <body style={{ margin: 0, padding: 0, height: "100%", overflow: "hidden" }}>
-        {children}
-      </body>
+    <html lang="es">
+      <body>{children}</body>
     </html>
-  );
+  )
 }
