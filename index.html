@@ -2059,7 +2059,7 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
         <button onclick="{{ tab.onClick }}" style="font-family:'Space Grotesk'; font-size:15px; font-weight:{{ tab.fw }}; letter-spacing:-0.01em; padding:11px 22px; border-radius:999px; cursor:pointer; opacity:{{ tab.op }}; background:{{ tab.bg }}; border:1.6px solid {{ tab.bd }}; color:{{ tab.fg }}; transition:background-color .35s cubic-bezier(.4,0,.2,1),border-color .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),opacity .35s cubic-bezier(.4,0,.2,1);">{{ tab.label }}</button>
       </sc-for>
       <span style="width:1px; height:20px; background:oklch(0.9 0.012 265); margin:0 2px;"></span>
-      <button onclick="{{ otros.onClick }}" style="font-family:'Space Grotesk'; font-size:13.5px; font-weight:500; letter-spacing:-0.01em; padding:9px 16px; border-radius:999px; cursor:pointer; background:transparent; border:1px dashed oklch(0.82 0.015 265); color:oklch(0.55 0.02 265); transition:background-color .35s cubic-bezier(.4,0,.2,1),border-color .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),opacity .35s cubic-bezier(.4,0,.2,1);">{{ otros.label }}</button>
+      <button onclick="{{ otros.onClick }}" aria-expanded="{{ otros.open }}" style="font-family:'Space Grotesk'; font-size:13.5px; font-weight:{{ otros.fw }}; letter-spacing:-0.01em; padding:10px 18px; border-radius:999px; cursor:pointer; background:{{ otros.bg }}; border:1.6px solid {{ otros.bd }}; color:{{ otros.fg }}; transition:background-color .35s cubic-bezier(.4,0,.2,1),border-color .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),opacity .35s cubic-bezier(.4,0,.2,1);">{{ otros.label }}</button>
     </div>
 
     <!-- SECONDARY ROW (deliberate access; dimmer, only when open) -->
@@ -2071,8 +2071,21 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
     </div>
     </sc-if>
 
+    <!-- TOPIC INDEX (cross-tier lookup by case type; no text search) + color legend -->
+    <div style="max-width:1280px; margin:12px auto 2px; display:flex; flex-direction:column; align-items:center; gap:9px;">
+      <span style="font-family:'Space Grotesk'; font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:oklch(0.5 0.02 265);">Empieza por tu caso</span>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:7px;">
+        <sc-for list="{{ topics }}" as="t" hint-placeholder-count="6">
+          <button onclick="{{ t.onClick }}" aria-pressed="{{ t.active }}" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk'; font-weight:{{ t.fw }}; font-size:12.5px; letter-spacing:-0.01em; padding:8px 14px; border-radius:999px; cursor:pointer; background:{{ t.bg }}; border:1.3px solid {{ t.bd }}; color:{{ t.fg }}; transition:background-color .3s cubic-bezier(.4,0,.2,1),border-color .3s cubic-bezier(.4,0,.2,1),color .3s cubic-bezier(.4,0,.2,1);">
+            <span style="flex:none; width:8px; height:8px; border-radius:50%; background:{{ t.color }};"></span>{{ t.label }}
+          </button>
+        </sc-for>
+      </div>
+      <span style="font-size:11.5px; line-height:1.4; text-align:center; color:oklch(0.5 0.015 265);">Cada color identifica una materia y te lleva al tribunal que la conoce.</span>
+    </div>
+
     <!-- ROOT (stays put) -->
-    <div style="max-width:1280px; margin:0 auto;">
+    <div style="max-width:1280px; margin:14px auto 0;">
       <h1 style="text-align:center; font-family:'Space Grotesk'; font-weight:700; font-size:clamp(28px,4.4vw,42px); line-height:1.05; letter-spacing:-0.02em; margin:0; color:oklch(0.24 0.03 265);">{{ title }}</h1>
       <p style="font-family:'IBM Plex Sans',system-ui,sans-serif; margin:12px 0 0; max-width:none; font-size:clamp(15px,1.5vw,17px); line-height:1.6; color:oklch(0.46 0.02 265);">{{ root.desc }}</p>
     </div>
@@ -2814,6 +2827,7 @@ class Component extends DCLogic {
   toggleBottom(which) { this.setState(st => ({ openBottom: st.openBottom === which ? null : which })); }
   switchTier(id) { const PRIMARY = ['cs','ca','ti']; this.setState(() => ({ tier: id, otrosOpen: PRIMARY.indexOf(id) === -1, openTop: 'salas', openSala: null, openMateria: null, openPlenoItem: null, openBottom: null })); }
   toggleOtros() { this.setState(st => ({ otrosOpen: !st.otrosOpen })); }
+  jumpTo(tier, salaId) { const PRIMARY = ['cs','ca','ti']; this.setState(() => ({ tier, otrosOpen: PRIMARY.indexOf(tier) === -1, openTop: 'salas', openSala: salaId, openMateria: null, openPlenoItem: null, openBottom: null })); }
 
   renderVals() {
     const s = this.state, D = this.TIERS[s.tier] || this.TIERS.cs;
@@ -2975,12 +2989,42 @@ class Component extends DCLogic {
         });
         return prim;
       })(),
-      otros: {
-        open: !!s.otrosOpen,
-        active: ['cs','ca','ti'].indexOf(s.tier) === -1,
-        label: 'Otros tribunales ' + (s.otrosOpen ? '\u25B4' : '\u25BE'),
-        onClick: () => this.toggleOtros(),
-      },
+      otros: (() => {
+        const active = ['cs','ca','ti'].indexOf(s.tier) === -1;
+        const AC = activeColor || 'oklch(0.52 0.15 300)';
+        return {
+          open: !!s.otrosOpen,
+          active,
+          label: 'Otros tribunales ' + (s.otrosOpen ? '\u25B4' : '\u25BE'),
+          onClick: () => this.toggleOtros(),
+          bg: active ? 'color-mix(in oklab, ' + AC + ', white 82%)' : (s.otrosOpen ? 'oklch(0.965 0.006 265)' : 'var(--paper)'),
+          bd: active ? AC : 'oklch(0.86 0.012 265)',
+          fg: active ? 'color-mix(in oklab, ' + AC + ', black 34%)' : 'oklch(0.42 0.02 265)',
+          fw: active ? '600' : '500',
+        };
+      })(),
+      topics: (() => {
+        const P = this.P;
+        const list = [
+          { label: 'Familia y ni\u00F1ez', color: P.pleno, tier: 'ti', sala: 'ti-familia' },
+          { label: 'Trabajo y despido', color: P.cuarta, tier: 'ti', sala: 'ti-laboral' },
+          { label: 'Civil, arriendos y deudas', color: P.civil, tier: 'ti', sala: 'ti-civil' },
+          { label: 'Delitos', color: P.penal, tier: 'ti', sala: 'ti-penal' },
+          { label: 'Tr\u00E1nsito y consumidor', color: P.tercera, tier: 'esp_nopj', sala: 'nopj-jpl' },
+          { label: 'Impuestos', color: P.salas, tier: 'esp_nopj', sala: 'nopj-tta' },
+        ];
+        return list.map(t => {
+          const active = s.tier === t.tier && s.openSala === t.sala && s.openTop === 'salas';
+          return {
+            label: t.label, color: t.color, active,
+            onClick: () => this.jumpTo(t.tier, t.sala),
+            bg: active ? 'color-mix(in oklab, ' + t.color + ', white 84%)' : 'var(--paper)',
+            bd: active ? t.color : 'color-mix(in oklab, ' + t.color + ', white 62%)',
+            fg: active ? 'color-mix(in oklab, ' + t.color + ', black 30%)' : 'oklch(0.4 0.02 265)',
+            fw: active ? '600' : '500',
+          };
+        });
+      })(),
       subtabs: (s.otrosOpen ? ['esp_pj','esp_nopj','fuera','arbitrales'] : []).map(id => {
         const AC = activeColor || 'oklch(0.52 0.15 300)';
         const active = s.tier === id;
